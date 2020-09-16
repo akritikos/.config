@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## 16/09/2020
 
+- Adds newly supported .editorconfig props
+- Cleans up .props/.targets for msbuild
+- Removes .config folder from project root in vscode
+
 ## 29/11/2019
 
 - Updates Roslyn Analyzers
