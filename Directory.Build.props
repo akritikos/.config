@@ -1,31 +1,61 @@
 <Project>
 	<PropertyGroup Label="Project">
+		<!-- Prepend organization name to default namespace -->
 		<RootNamespace>Kritikos.$(MSBuildProjectName)</RootNamespace>
-		<LangVersion>8.0</LangVersion>
+		<!-- Generate documentation file and ignore warnings for undocumented elements -->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>1591</NoWarn>
+		<!-- Error out upon trying to package projects marked as not packable -->
 		<WarnOnPackingNonPackableProject>true</WarnOnPackingNonPackableProject>
+		<!-- Disable warnings on preview SDK versions -->
 		<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
 		<!-- We only target a single framework hence the subdir is not needed -->
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<!-- Same but for runtime assemblies -->
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-		<Nullable>enable</Nullable>
-		<IsTest>false</IsTest>
+		<!-- Enable lock files -->
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+		<!-- Disable nugets from SDK fallback folders -->
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-		<RestoreLockedMode Condition="'$(ContinuousIntegrationBuild)' == 'true'">true</RestoreLockedMode>
+		<!-- Enable nullable context by default -->
+		<Nullable>enable</Nullable>
+		<!-- Enable .NET 5+ native analyzers -->
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<!-- Use latest stable language features -->
+		<AnalysisLevel>latest</AnalysisLevel>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<!-- Set automated build variable -->
+	<PropertyGroup Label="CI Build">
+		<!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables -->
+		<ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">True</ContinuousIntegrationBuild>
+
+		<!-- https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables -->
+		<ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
+
+		<!-- https://docs.gitlab.com/ee/ci/variables/predefined_variables.html -->
+		<ContinuousIntegrationBuild Condition="'$(GITLAB_CI)' == 'true'">True</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<!-- Restore only locked nuget packages on automated builds -->
+	<PropertyGroup Label="CI" Condition="'$(ContinuousIntegrationBuild)' == 'true'">
+		<RestoreLockedMode>true</RestoreLockedMode>
+	</PropertyGroup>
+
+	<!-- Enable custom nesting for files -->
 	<ItemGroup>
 		<ProjectCapability Include="DynamicFileNesting" />
 		<ProjectCapability Include="DynamicDependentFile" />
 	</ItemGroup>
 
+	<!-- Use submodule .NET ruleset for analyzers -->
 	<PropertyGroup Label="Code Analysis Ruleset" Condition="Exists('$(MSBuildThisFileDirectory)\.config\dotnet.ruleset')">
 		<CodeAnalysisRuleset>$(MSBuildThisFileDirectory)\.config\dotnet.ruleset</CodeAnalysisRuleset>
 	</PropertyGroup>
 
+	<!-- Use submodule stylecop configuration -->
 	<ItemGroup Label="Code Analysis Configuration" Condition="Exists('$(MSBuildThisFileDirectory)\.config\stylecop.json')">
 		<AdditionalFiles Include="$(MSBuildThisFileDirectory)\.config\stylecop.json" Link="stylecop.json" />
 	</ItemGroup>
@@ -38,9 +68,6 @@
 		<PackageId></PackageId>
 		<Company>Kritikos IO</Company>
 		<Authors>Alexandros Kritikos</Authors>
-		<!-- Optional: Include PDB in the built .nupkg to enable debugging -->
-		<!-- VS 2019 can fetch them through snupkg -->
-		<!--<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>-->
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -90,10 +117,7 @@
 	</ItemGroup>
 
 	<ItemGroup Label="License Import" Condition="Exists('$(MSBuildThisFileDirectory)\LICENSE.md')">
-		<None Include="..\..\LICENSE.md">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
+		<None Include="$(MSBuildThisFileDirectory)\LICENSE.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<PropertyGroup Label="License" Condition="Exists('$(MSBuildThisFileDirectory)\LICENSE.md')">

@@ -2,6 +2,10 @@
 	"folders": [
 		{
 			"path": ".."
+		},
+		{
+			"path": ".",
+			"name": ".config"
 		}
 	],
 	"settings": {
@@ -14,7 +18,8 @@
 			"**/.vs": true, // Visual Studio cache
 			".vscode": true,
 			"*.sln.DotSettings.user": true, // managed by Resharper
-			".gitmodules": true, // managed by git
+			"**/.gitmodules": true, // managed by git
+			".config": true, // submodule, managed in its own root
 			"{src,tests}/*/{bin,obj}": true, // build artifacts
 		}
 	}

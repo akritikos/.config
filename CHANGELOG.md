@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## 16/09/2020
+
 ## 29/11/2019
 
 - Updates Roslyn Analyzers
