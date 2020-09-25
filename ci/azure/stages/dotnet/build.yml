@@ -18,7 +18,7 @@ stages:
           - template: ../../steps/dotnet/publish.yml
           - template: ../../steps/general/publish.yml
             parameters:
-              publishWeb: ${{ parameters.publishWeb }}
+              publishWebProjects: ${{ parameters.publishWeb }}
               artifactName: $(Build.Repository.Name)-$(Build.BuildNumber)
           - template: ../../steps/dotnet/pack.yml
           - template: ../../steps/general/publish.yml
