@@ -1,5 +1,5 @@
 parameters:
-- name: publishWebProjects
+- name: publishWeb
   type: boolean
   default: false
 
@@ -18,7 +18,7 @@ stages:
           - template: ../../steps/dotnet/publish.yml
           - template: ../../steps/general/publish.yml
             parameters:
-              publishWebProjects: ${{ parameters.publishWebProjects }}
+              publishWeb: ${{ parameters.publishWeb }}
               artifactName: $(Build.Repository.Name)-$(Build.BuildNumber)
           - template: ../../steps/dotnet/pack.yml
           - template: ../../steps/general/publish.yml
