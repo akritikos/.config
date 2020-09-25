@@ -9,6 +9,11 @@ stages:
           - template: ../../steps/dotnet/restore.yml
           - template: ../../steps/general/coverage-install-tools.yml
           - template: ../../steps/general/sonar-scanner-begin.yml
+          - template: ../../steps/dotnet/build.yml
+            parameters:
+              configuration: ${{ parameters.configuration }}
           - template: ../../steps/dotnet/test.yml
+            parameters:
+              configuration: ${{ parameters.configuration }}
           - template: ../../steps/general/sonar-scanner-end.yml
           - template: ../../steps/general/coverage-publish.yml
