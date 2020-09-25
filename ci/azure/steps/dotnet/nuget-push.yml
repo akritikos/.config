@@ -10,7 +10,7 @@ parameters:
 
 
 steps:
-  - ${{ if eq(lower('${{ parameters.BuildConfiguration }}'), 'release') }}:
+  - ${{ if eq(lower('$(BuildConfiguration)'), 'release') }}:
     - task: NuGetCommand@2
       displayName: 'Push NuGet Package'
       inputs:
