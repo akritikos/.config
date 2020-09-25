@@ -1,0 +1,17 @@
+parameters:
+- name: nugetDirectory
+  type: string
+- name: feedCredentials
+  type: string
+  default: Kritikos
+
+
+steps:
+  - ${{ if eq(lower(parameters.configuration), 'release') }}:
+    - task: NuGetCommand@2
+      displayName: 'Push NuGet Package'
+      inputs:
+        command: 'push'
+        packagesToPush: '{{ parameters.nugetDirectory }}/*.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: '{{ parameters.feedCredentials }}'
