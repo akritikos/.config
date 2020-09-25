@@ -76,7 +76,7 @@
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	</PropertyGroup>
 
-	<ItemGroup Label="Nugets" Condition="!$(IsTest)">
+	<ItemGroup Label="Nugets" Condition="'$(IsTestProject)' != 'true'">
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -99,7 +99,7 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup Label="SourceLink" Condition="$(IsPackable)">
+	<ItemGroup Label="SourceLink" Condition="'$(IsPackable)' == 'true'">
 		<PackageReference Include="Microsoft.SourceLink.Bitbucket.Git" Version="1.0.0" PrivateAssets="All"/>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
 		<PackageReference Include="Microsoft.SourceLink.GitLab" Version="1.0.0" PrivateAssets="All"/>
@@ -109,7 +109,7 @@
 		<SourceLinkBitBucketHost Include="bitbucket.org" />
 	</ItemGroup>
 
-	<ItemGroup Label="TestCoverage" Condition="$(IsTest)">
+	<ItemGroup Label="TestCoverage" Condition="'$(IsTestProject)' == 'true'">
 		<PackageReference Include="coverlet.msbuild" Version="2.9.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
