@@ -10,15 +10,10 @@ parameters:
 
 
 steps:
-  - ${{ if eq(lower('$(BuildConfiguration)'), 'release') }}:
-    - task: NuGetCommand@2
-      displayName: 'Push NuGet Package'
-      inputs:
-        command: 'push'
-        packagesToPush: ${{ parameters.nugetDirectory }}/*.nupkg
-        nuGetFeedType: 'external'
-        publishFeedCredentials: ${{ parameters.feedCredentials }}
-  - ${{ if ne(lower('${{ parameters.BuildConfiguration }}'), 'release') }}:
-    - pwsh: |
-        Write-Host 'Only nugets build in Release configuration will be pushed! Current nuget was build in $(lower(parameters.configuration)) configuration.' -ForegroundColor red
-      displayName: Unsupported nuget
+  - task: NuGetCommand@2
+    displayName: 'Push NuGet Package'
+    inputs:
+      command: 'push'
+      packagesToPush: ${{ parameters.nugetDirectory }}/*.nupkg
+      nuGetFeedType: 'external'
+      publishFeedCredentials: ${{ parameters.feedCredentials }}

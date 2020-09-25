@@ -26,10 +26,7 @@ stages:
           runOnce:
             deploy:
               steps:
-              # - download: current
-              #   artifact: ${{ parameters.libraryArtifactName }}
               - template: ../../steps/dotnet/nuget-push.yml
                 parameters:
                   nugetDirectory: $(Pipeline.Workspace)/{{ parameters.libraryArtifactName }}
                   feedCredentials: ${{ parameters.feedCredentials }}
-                  configuration: ${{ parameters.configuration }}
