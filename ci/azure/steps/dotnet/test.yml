@@ -10,9 +10,9 @@ steps:
     command: 'test'
     configuration: ${{ parameters.configuration }}
     publishTestResults: true
-    testRunTitle: 'Unit Tests'
+    testRunTitle: 'Discover and run tests'
     # Multiple comma seperated msbuild parameters should be seperated with %2c
     # Additionally, VSTS does not need escaped quotes
-    arguments: '--logger trx /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:CoverletOutput=$(build.artifactStagingDirectory)/coverage/ /p:MergeWith=$(build.artifactStagingDirectory)/coverage/coverage.json'
+    arguments: '--logger trx --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:CoverletOutput=$(build.artifactStagingDirectory)/coverage/ /p:MergeWith=$(build.artifactStagingDirectory)/coverage/coverage.json'
     verbosityPack: Minimal
     verbosityRestore: Minimal
