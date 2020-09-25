@@ -1,7 +1,7 @@
 parameters:
 - name: configuration
   type: string
-  default: $(BuildConfiguration)
+  default: Debug
 - name: coverageTool
   default: 'cobertura'
   type: string
