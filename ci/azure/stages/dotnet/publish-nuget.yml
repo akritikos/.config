@@ -12,7 +12,7 @@ stages:
   - stage:
     dependsOn:
       - Build
-    condition: and(succeeded(),eq(lower(${{ parameters.configuration }}), 'release'))
+    condition: and(succeeded(),eq(lower('${{ parameters.configuration }}'), 'release'))
     jobs:
       - deployment: KritikosIO
         displayName: Publish to Kritikos IO Feed
