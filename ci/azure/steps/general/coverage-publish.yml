@@ -5,6 +5,9 @@ parameters:
 - name: summaryFile
   default: '$(build.artifactStagingDirectory)/coverage/coverage.cobertura.xml'
   type: 'string'
+- name: coverageDirectory
+  type: string
+  default: $(build.artifactStagingDirectory)/coverage/
 
 steps:
 - task: PublishCodeCoverageResults@1
@@ -14,11 +17,11 @@ steps:
   displayName: Publish code coverage
 - ${{  if ne(variables['Build.Reason'], 'PullRequest') }}:
   - pwsh: |
-      ../csmacnz.Coveralls --repoToken "$(CoverallsApiKey)" --opencover -i $(build.artifactStagingDirectory)/coverage/coverage.opencover.xml --useRelativePaths --commitId "$(Build.SourceVersion)" --commitBranch "$(Build.SourceBranchName)" --commitAuthor "$(Build.RequestedFor)" --commitEmail "$(Build.RequestedForEmail)" --commitMessage "$(Build.SourceVersionMessage)" --jobId "$(Build.BuildId)"
-      ../codecov --file $(build.artifactStagingDirectory)/coverage/coverage.opencover.xml --branch "$(Build.SourceBranchName)" --sha "$(Build.SourceVersion)"
+      ../csmacnz.Coveralls --repoToken "$(CoverallsApiKey)" --opencover -i ${{ parameters.coverageDirectory }}/coverage.opencover.xml --useRelativePaths --commitId "$(Build.SourceVersion)" --commitBranch "$(Build.SourceBranchName)" --commitAuthor "$(Build.RequestedFor)" --commitEmail "$(Build.RequestedForEmail)" --commitMessage "$(Build.SourceVersionMessage)" --jobId "$(Build.BuildId)"
+      ../codecov --file ${{ parameters.coverageDirectory }}/coverage.opencover.xml --branch "$(Build.SourceBranchName)" --sha "$(Build.SourceVersion)"
     displayName: Push Coverage (CI)
 - ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
   - pwsh: |
-      ../csmacnz.Coveralls --repoToken "$(CoverallsApiKey)" --opencover -i $(build.artifactStagingDirectory)/coverage/coverage.opencover.xml --useRelativePaths --commitId "$(Build.SourceVersion)" --commitBranch "$(Build.SourceBranchName)" --commitAuthor "$(Build.RequestedFor)" --commitEmail "$(Build.RequestedForEmail)" --commitMessage "$(Build.SourceVersionMessage)" --jobId "$(Build.BuildId)" --pullRequest "$(System.PullRequest.PullRequestId)"
-      ../codecov --file $(build.artifactStagingDirectory)/coverage/coverage.opencover.xml --branch "$(Build.SourceBranchName)" --sha "$(Build.SourceVersion)" --pr "$(System.PullRequest.PullRequestId)"
+      ../csmacnz.Coveralls --repoToken "$(CoverallsApiKey)" --opencover -i ${{ parameters.coverageDirectory }}/coverage.opencover.xml --useRelativePaths --commitId "$(Build.SourceVersion)" --commitBranch "$(Build.SourceBranchName)" --commitAuthor "$(Build.RequestedFor)" --commitEmail "$(Build.RequestedForEmail)" --commitMessage "$(Build.SourceVersionMessage)" --jobId "$(Build.BuildId)" --pullRequest "$(System.PullRequest.PullRequestId)"
+      ../codecov --file ${{ parameters.coverageDirectory }}/coverage.opencover.xml --branch "$(Build.SourceBranchName)" --sha "$(Build.SourceVersion)" --pr "$(System.PullRequest.PullRequestId)"
     displayName: Push Coverage (Pull Request)
