@@ -25,9 +25,9 @@ stages:
           - template: ../../steps/general/sonar-scanner-begin.yml
             parameters:
               coverageDirectory: ${{ parameters.coverageDirectory }}
-          # - template: ../../steps/dotnet/build.yml
-          #   parameters:
-          #     configuration: ${{ parameters.configuration }}
+          - template: ../../steps/dotnet/build.yml
+            parameters:
+              configuration: ${{ parameters.configuration }}
           - template: ../../steps/dotnet/test.yml
             parameters:
               configuration: ${{ parameters.configuration }}
