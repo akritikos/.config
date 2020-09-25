@@ -1,3 +1,17 @@
+parameters:
+- name: configuration
+  type: string
+  default: $(BuildConfiguration)
+- name: coverageTool
+  default: 'cobertura'
+  type: string
+- name: summaryFile
+  default: '$(build.artifactStagingDirectory)/coverage/coverage.cobertura.xml'
+  type: 'string'
+- name: coverageDirectory
+  type: string
+  default: $(build.artifactStagingDirectory)/coverage/
+
 stages:
   - stage: Test
     displayName: Runs unit tests and coverage collection
@@ -9,11 +23,18 @@ stages:
           - template: ../../steps/dotnet/restore.yml
           - template: ../../steps/general/coverage-install-tools.yml
           - template: ../../steps/general/sonar-scanner-begin.yml
+            parameters:
+              coverageDirectory: ${{ parameters.coverageDirectory }}
           - template: ../../steps/dotnet/build.yml
             parameters:
               configuration: ${{ parameters.configuration }}
           - template: ../../steps/dotnet/test.yml
             parameters:
               configuration: ${{ parameters.configuration }}
+              coverageDirectory: ${{ parameters.coverageDirectory }}
           - template: ../../steps/general/sonar-scanner-end.yml
           - template: ../../steps/general/coverage-publish.yml
+            parameters:
+              coverageTool: ${{ parameters.coverageTool }}
+              coverageDirectory: ${{ parameters.coverageDirectory }}
+              summaryFile: ${{ parameters.summaryFile }}
