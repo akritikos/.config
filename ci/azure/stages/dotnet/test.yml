@@ -33,8 +33,8 @@ stages:
               configuration: ${{ parameters.configuration }}
               coverageDirectory: ${{ parameters.coverageDirectory }}
           - template: ../../steps/general/sonar-scanner-end.yml
-          - template: ../../steps/general/coverage-publish.yml
-            parameters:
-              coverageTool: ${{ parameters.coverageTool }}
-              coverageDirectory: ${{ parameters.coverageDirectory }}
-              summaryFile: ${{ parameters.summaryFile }}
+          # - template: ../../steps/general/coverage-publish.yml
+          #   parameters:
+          #     coverageTool: ${{ parameters.coverageTool }}
+          #     coverageDirectory: ${{ parameters.coverageDirectory }}
+          #     summaryFile: ${{ parameters.summaryFile }}
