@@ -23,7 +23,6 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<!-- Use latest stable language features -->
 		<AnalysisLevel>latest</AnalysisLevel>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
