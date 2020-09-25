@@ -21,6 +21,9 @@
 			"**/.gitmodules": true, // managed by git
 			".config": true, // submodule, managed in its own root
 			"{src,tests}/*/{bin,obj}": true, // build artifacts
+		},
+		"files.associations": {
+			"**/ci/azure/{steps,stages}/*/*.yml": "azure-pipelines"
 		}
 	}
 }
