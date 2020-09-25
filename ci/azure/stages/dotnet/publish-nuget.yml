@@ -1,6 +1,11 @@
 parameters:
 - name: type
   type: string
+- name: dependencies
+  type: object
+  default:
+    - Build
+    - Test
 - name: stageName
   type: string
   default: Publishes nuget to nightly feed
@@ -13,11 +18,9 @@ parameters:
   type: string
 
 stages:
-  - stage: Publish_${{ parameters.type }}
+  - stage: ${{ parameters.type }}
     displayName: Publishes nugets to feed
-    dependsOn:
-      - Build
-      - Test
+    dependsOn: ${{ parameters.dependencies }}
     condition: succeeded()
     jobs:
       - deployment: KritikosIO
