@@ -1,7 +1,10 @@
 parameters:
 - name: coverageTool
-  default: 'cobertura'
+  default: cobertura
   type: string
+  values:
+  - cobertura
+  - jacoco
 - name: summaryFile
   default: '$(build.artifactStagingDirectory)/coverage/coverage.cobertura.xml'
   type: 'string'
