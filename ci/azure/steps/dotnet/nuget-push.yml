@@ -21,4 +21,5 @@ steps:
   - ${{ if ne(lower(parameters.configuration), 'release') }}:
     - pwsh: |
         Write-Host 'Only nugets build in Release configuration will be pushed! Current nuget was build in $(lower(parameters.configuration)) configuration.' -ForegroundColor red
+        Write-Host $(lower(parameters.configuration)) $(lower(${{ parameters.configuration }}))
       displayName: Unsupported nuget
