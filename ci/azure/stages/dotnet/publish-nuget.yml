@@ -1,6 +1,7 @@
 parameters:
 - name: stageName
   type: string
+  default: Publishes nuget to nightly feed
 - name: configuration
   type: string
   default: $(BuildConfiguration)
