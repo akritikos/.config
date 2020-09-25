@@ -19,7 +19,6 @@ steps:
         nuGetFeedType: 'external'
         publishFeedCredentials: '{{ parameters.feedCredentials }}'
   - ${{ if ne(lower(parameters.configuration), 'release') }}:
-    - task:
-      displayName: Unsupported nuget
-      - pwsh: |
+    - pwsh: |
         Write-Host 'Only nugets build in Release configuration will be pushed!' -ForegroundColor red
+      displayName: Unsupported nuget
