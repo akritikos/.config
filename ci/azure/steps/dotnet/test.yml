@@ -16,6 +16,6 @@ steps:
     testRunTitle: 'Discover and run tests'
     # Multiple comma seperated msbuild parameters should be seperated with %2c
     # Additionally, VSTS does not need escaped quotes
-    arguments: '--logger trx --no-restore --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:CoverletOutput=${{ parameters.coverageDirectory }} /p:MergeWith=${{ parameters.coverageDirectory }}/coverage.json'
+    arguments: '--logger trx --no-restore --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat="opencover%2ccobertura" /p:CoverletOutput=${{ parameters.coverageDirectory }}/ /p:MergeWith=${{ parameters.coverageDirectory }}/coverage.json'
     verbosityPack: Minimal
     verbosityRestore: Minimal
