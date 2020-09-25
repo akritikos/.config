@@ -1,5 +1,5 @@
 stages:
   - stage: Version
-    displayName: Calculates semantic version
+    displayName: Calculate SemVer
     jobs:
       - template: ../../steps/general/gitversion.yml

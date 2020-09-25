@@ -23,7 +23,7 @@ parameters:
 
 stages:
   - stage: Build
-    displayName: Builds artifacts
+    displayName: Build artifacts
     dependsOn: Version
     jobs:
       - job: Build

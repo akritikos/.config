@@ -8,7 +8,7 @@ parameters:
     - Test
 - name: stageName
   type: string
-  default: Publishes nuget to nightly feed
+  default: Publish nugets to nightly feed
 - name: environment
   type: string
 - name: libraryArtifactName
@@ -19,7 +19,7 @@ parameters:
 
 stages:
   - stage: ${{ parameters.type }}
-    displayName: Publishes nugets to feed
+    displayName: Publish nugets to feed
     dependsOn: ${{ parameters.dependencies }}
     condition: succeeded()
     jobs:
