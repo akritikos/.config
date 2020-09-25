@@ -13,7 +13,7 @@ parameters:
   type: string
 
 stages:
-  - stage: Publish-${{ parameters.type }}
+  - stage: Publish_${{ parameters.type }}
     displayName: Publishes nugets to feed
     dependsOn:
       - Build
