@@ -1,3 +1,26 @@
+parameters:
+- name: configuration
+  type: string
+  default: $(BuildConfiguration)
+- name: publishWeb
+  type: boolean
+  default: false
+- name: binaryArtifactLocation
+  type: string
+  default: $(build.artifactStagingDirectory)/publish
+- name: binaryArtifactName
+  type: string
+  default: $(Build.Repository.Name)-$(Build.BuildNumber)-build
+- name: projectsToPack
+  type: string
+  default: 'src/*/*.csproj'
+- name: libraryArtifactLocation
+  type: string
+  default: $(build.artifactStagingDirectory)/nuget
+- name: libraryArtifactName
+  type: string
+  default: $(Build.Repository.Name)-$(Build.BuildNumber)
+
 stages:
   - stage: Build
     displayName: Builds artifacts
@@ -10,12 +33,23 @@ stages:
           - template: ../../steps/dotnet/nuget-cache.yml
           - template: ../../steps/dotnet/restore.yml
           - template: ../../steps/dotnet/build.yml
+            parameters:
+              configuration: ${{ parameters.configuration }}
           - template: ../../steps/dotnet/publish.yml
+            parameters:
+              configuration: ${{ parameters.configuration }}
+              publishWeb: ${{ parameters.publishWeb }}
+              outputPath: ${{ parameters.binaryArtifactLocation }}
           - template: ../../steps/general/publish.yml
             parameters:
-              artifactName: $(Build.Repository.Name)-$(Build.BuildNumber)
+              pathtoPublish: ${{ parameters.binaryArtifactLocation }}
+              artifactName: ${{ parameters.binaryArtifactName }}
           - template: ../../steps/dotnet/pack.yml
+            parameters:
+              configuration: ${{ parameters.configuration }}
+              packDirectory: ${{ parameters.libraryArtifactLocation }}
+              projectsToPack: ${{ parameters.projectsToPack }}
           - template: ../../steps/general/publish.yml
             parameters:
-              artifactName: pack
-              pathtoPublish: $(build.artifactStagingDirectory)/nuget
+              artifactName: ${{ parameters.libraryArtifactName }}
+              pathtoPublish: ${{ parameters.libraryArtifactLocation }}
