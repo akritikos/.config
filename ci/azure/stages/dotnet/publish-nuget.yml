@@ -28,5 +28,5 @@ stages:
               steps:
               - template: ../../steps/dotnet/nuget-push.yml
                 parameters:
-                  nugetDirectory: $(Pipeline.Workspace)/{{ parameters.libraryArtifactName }}
+                  nugetDirectory: $(Pipeline.Workspace)/${{ parameters.libraryArtifactName }}
                   feedCredentials: ${{ parameters.feedCredentials }}
