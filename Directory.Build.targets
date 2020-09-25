@@ -3,9 +3,7 @@
 		<Exec Command="npm install" />
 	</Target>
 
-	<Project>
-		<PropertyGroup Condition="'$(IsTestProject)' == 'true'">
-			<Nullable>disable</Nullable>
-		</PropertyGroup>
-	</Project>
+	<PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
 </Project>
