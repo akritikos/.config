@@ -10,7 +10,7 @@ parameters:
 
 
 steps:
-  - ${{ if eq(lower(parameters.configuration), 'release') }}:
+  - ${{ if eq(lower(${{ parameters.configuration }}), 'release') }}:
     - task: NuGetCommand@2
       displayName: 'Push NuGet Package'
       inputs:
@@ -21,5 +21,4 @@ steps:
   - ${{ if ne(lower(parameters.configuration), 'release') }}:
     - pwsh: |
         Write-Host 'Only nugets build in Release configuration will be pushed! Current nuget was build in $(lower(parameters.configuration)) configuration.' -ForegroundColor red
-        Write-Host $(lower(parameters.configuration)) $(lower(${{ parameters.configuration }}))
       displayName: Unsupported nuget
