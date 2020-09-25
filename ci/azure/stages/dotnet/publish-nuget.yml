@@ -19,7 +19,7 @@ stages:
     condition: succeeded()
     jobs:
       - deployment: KritikosIO
-        displayName: Publish to Kritikos IO Feed
+        displayName: ${{ parameters.stageName }}
         environment: Kritikos-io
         strategy:
           runOnce:
