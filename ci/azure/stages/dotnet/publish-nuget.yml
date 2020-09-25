@@ -1,0 +1,31 @@
+parameters:
+- name: stageName
+  type: string
+- name: configuration
+  type: string
+  default: $(BuildConfiguration)
+- name: libraryArtifactName
+  type: string
+  default: $(Build.Repository.Name)-$(Build.BuildNumber)
+
+stages:
+  - stage:
+    dependsOn:
+      - Build
+    condition: and(succeeded(),eq(lower({{ parameters.configuration }}), 'release'))
+    jobs:
+      - deployment: KritikosIO
+        displayName: Publish to Kritikos IO Feed
+        environment: Kritikos-io
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - task: NuGetCommand@2
+                displayName: 'Push NuGet Package'
+                inputs:
+                  command: 'push'
+                  packagesToPush: '$(Pipeline.Workspace)/{{parameters.libraryArtifactName }}/*.nupkg'
+                  nuGetFeedType: 'external'
+                  publishFeedCredentials: 'Kritikos'
+
