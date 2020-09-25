@@ -1,10 +1,11 @@
 parameters:
+- name: type
+  type: string
 - name: stageName
   type: string
   default: Publishes nuget to nightly feed
-- name: configuration
+- name: environment
   type: string
-  default: $(BuildConfiguration)
 - name: libraryArtifactName
   type: string
   default: $(Build.Repository.Name)-$(Build.BuildNumber)
@@ -12,8 +13,8 @@ parameters:
   type: string
 
 stages:
-  - stage: PublishCI
-    displayName: Publishes nugets to nightly feed
+  - stage: Publish-${{ parameters.type }}
+    displayName: Publishes nugets to feed
     dependsOn:
       - Build
       - Test
@@ -21,12 +22,12 @@ stages:
     jobs:
       - deployment: KritikosIO
         displayName: ${{ parameters.stageName }}
-        environment: Kritikos-io
+        environment: ${{ parameters.environment }}
         strategy:
           runOnce:
             deploy:
               steps:
               - template: ../../steps/dotnet/nuget-push.yml
                 parameters:
-                  nugetDirectory: $(Pipeline.Workspace)/${{ parameters.libraryArtifactName }}
+                  nugetDirectory: $(Pipeline.Workspace)/{{ parameters.libraryArtifactName }}
                   feedCredentials: ${{ parameters.feedCredentials }}
