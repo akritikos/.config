@@ -29,5 +29,4 @@ stages:
                 parameters:
                   nugetDirectory: $(Pipeline.Workspace)/{{ parameters.libraryArtifactName }}
                   feedCredentials: ${{ parameters.feedCredentials }}
-                  configuration: ${{ parameters.feedCredentials }}
-
+                  configuration: ${{ parameters.configuration }}

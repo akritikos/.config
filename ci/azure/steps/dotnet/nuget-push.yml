@@ -4,6 +4,9 @@ parameters:
 - name: feedCredentials
   type: string
   default: Kritikos
+- name: configuration
+  type: string
+  default: $(BuildConfiguration)
 
 
 steps:
@@ -15,3 +18,8 @@ steps:
         packagesToPush: '{{ parameters.nugetDirectory }}/*.nupkg'
         nuGetFeedType: 'external'
         publishFeedCredentials: '{{ parameters.feedCredentials }}'
+  - ${{ if ne(lower(parameters.configuration), 'release') }}:
+    - task:
+      displayName: Unsupported nuget
+      - pwsh: |
+        Write-Host 'Only nugets build in Release configuration will be pushed!' -ForegroundColor red
