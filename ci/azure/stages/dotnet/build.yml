@@ -1,5 +1,5 @@
 parameters:
-- name: publishWeb
+- name: publishWebProjects
   type: boolean
   default: false
 
