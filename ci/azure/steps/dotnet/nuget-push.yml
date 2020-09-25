@@ -14,6 +14,6 @@ steps:
     displayName: 'Push NuGet Package'
     inputs:
       command: 'push'
-      packagesToPush: ${{ parameters.nugetDirectory }}/*.nupkg
+      packagesToPush: '${{ parameters.nugetDirectory }}/*.nupkg'
       nuGetFeedType: 'external'
-      publishFeedCredentials: ${{ parameters.feedCredentials }}
+      publishFeedCredentials: '${{ parameters.feedCredentials }}'
