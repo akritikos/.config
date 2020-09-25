@@ -1,0 +1,14 @@
+stages:
+  - stage: Test
+    displayName: Runs unit tests and coverage collection
+    dependsOn: Version
+    jobs:
+      - job: Test
+        steps:
+          - template: ../../steps/dotnet/nuget-cache.yml
+          - template: ../../steps/dotnet/restore.yml
+          - template: ../../steps/general/coverage-install-tools.yml
+          - template: ../../steps/general/sonar-scanner-begin.yml
+          - template: ../../steps/dotnet/test.yml
+          - template: ../../steps/general/sonar-scanner-end.yml
+          - template: ../../steps/general/coverage-publish.yml

@@ -1,0 +1,21 @@
+stages:
+  - stage: Build
+    displayName: Builds artifacts
+    dependsOn: Version
+    jobs:
+      - job: Build
+        steps:
+          - checkout: self
+            fetchDepth: 1
+          - template: ../../steps/dotnet/nuget-cache.yml
+          - template: ../../steps/dotnet/restore.yml
+          - template: ../../steps/dotnet/build.yml
+          - template: ../../steps/dotnet/publish.yml
+          - template: ../../steps/general/publish.yml
+            parameters:
+              artifactName: $(Build.Repository.Name)-$(Build.BuildNumber)
+          - template: ../../steps/dotnet/pack.yml
+          - template: ../../steps/general/publish.yml
+            parameters:
+              artifactName: pack
+              pathtoPublish: $(build.artifactStagingDirectory)/nuget
