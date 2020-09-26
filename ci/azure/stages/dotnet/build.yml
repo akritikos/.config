@@ -2,6 +2,10 @@ parameters:
 - name: configuration
   type: string
   default: $(BuildConfiguration)
+- name: dependencies
+  type: object
+  default:
+    - Version
 - name: publishWeb
   type: boolean
   default: false
@@ -24,7 +28,7 @@ parameters:
 stages:
   - stage: Build
     displayName: Build artifacts
-    dependsOn: Version
+    dependsOn: ${{ parameters.dependencies }}
     jobs:
       - job: Build
         steps:

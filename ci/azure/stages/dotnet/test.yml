@@ -2,6 +2,10 @@ parameters:
 - name: configuration
   type: string
   default: Debug
+- name: dependencies
+  type: object
+  default:
+    - Version
 - name: coverageTool
   default: 'cobertura'
   type: string
@@ -15,7 +19,7 @@ parameters:
 stages:
   - stage: Test
     displayName: Runs unit tests and coverage collection
-    dependsOn: Version
+    dependsOn: ${{ parameters.dependencies }}
     jobs:
       - job: Test
         steps:
