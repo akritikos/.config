@@ -53,8 +53,6 @@
       "type": "shell",
       "args": [
         "test",
-        "--results-directory",
-        "./coverage",
         "--configuration",
         "Release",
         "--no-restore",
@@ -96,7 +94,7 @@
       ],
       "dependsOn": [
         "clean",
-        "build"
+        "test",
       ],
       "group": {
         "kind": "build",
