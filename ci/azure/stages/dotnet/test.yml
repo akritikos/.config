@@ -24,11 +24,11 @@ stages:
       - job: Test
         steps:
           - template: ../../steps/dotnet/nuget-cache.yml
-          - template: ../../steps/dotnet/restore.yml
           - template: ../../steps/general/coverage-install-tools.yml
           - template: ../../steps/general/sonar-scanner-begin.yml
             parameters:
               coverageDirectory: ${{ parameters.coverageDirectory }}
+          - template: ../../steps/dotnet/restore.yml
           - template: ../../steps/dotnet/build.yml
             parameters:
               configuration: ${{ parameters.configuration }}
