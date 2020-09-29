@@ -26,7 +26,7 @@
 		<!-- Use latest language version supported by the SDK -->
 		<LangVersion>latest</LangVersion>
 		<!-- Makes all project types implicitly packable (opt out per type @ .targets) -->
-		<IsPackable>true</IsPackable>
+		<!-- <IsPackable>true</IsPackable> -->
 	</PropertyGroup>
 
 	<!-- Sets deterministic source paths for CI builds -->
