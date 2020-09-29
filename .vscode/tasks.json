@@ -54,7 +54,9 @@
       "args": [
         "test",
         "--configuration",
-        "Release",
+        "Debug",
+        "--results-directory",
+        "./TestResults",
         "--no-restore",
         "--no-build",
         "--nologo",
