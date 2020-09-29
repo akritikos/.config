@@ -4,7 +4,7 @@ parameters:
   default: $(BuildConfiguration)
 - name: coverageDirectory
   type: string
-  default: $(build.artifactStagingDirectory)/coverage/
+  default: $(build.artifactStagingDirectory)/coverage
 
 steps:
 - task: DotNetCoreCLI@2
@@ -16,6 +16,6 @@ steps:
     testRunTitle: 'Discover and run tests'
     # Multiple comma seperated msbuild parameters should be seperated with %2c
     # Additionally, VSTS does not need escaped quotes
-    arguments: '--logger trx --no-restore --no-build --verbosity normal /p:CollectCoverage=true /p:CopyLocalLockFileAssemblies=true /p:IncludeTestAssembly=true /p:ExcludeByFile=\"**/Microsoft.NET.Test.Sdk.Program.cs\" /p:CoverletOutputFormat="opencover%2ccobertura" /p:CoverletOutput=${{ parameters.coverageDirectory }} /p:MergeWith=${{ parameters.coverageDirectory }}/coverage.json'
+    arguments: '--logger trx --no-restore --no-build --nologo --verbosity normal /p:CopyLocalLockFileAssemblies=true /p:IncludeTestAssembly=true /p:ExcludeByFile="**/Microsoft.NET.Test.Sdk.Program.cs" /p:SkipAutoProps=true /p:CollectCoverage=true /p:CoverletOutput="${{ parameters.coverageDirectory }}/" /p:MergeWith=${{ parameters.coverageDirectory }}/coverage.json /p:CoverletOutputFormat="opencover%2ccobertura%2cjson"'
     verbosityPack: Minimal
     verbosityRestore: Minimal
