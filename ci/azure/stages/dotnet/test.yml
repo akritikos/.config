@@ -32,6 +32,7 @@ stages:
           - template: ../../steps/dotnet/build.yml
             parameters:
               configuration: ${{ parameters.configuration }}
+              buildArgs: '/clp:ErrorsOnly'
           - template: ../../steps/dotnet/test.yml
             parameters:
               configuration: ${{ parameters.configuration }}
