@@ -1,7 +1,7 @@
 parameters:
 - name: configuration
   type: string
-  default: Debug
+  default: Release
 - name: dependencies
   type: object
   default:
