@@ -1,5 +1,5 @@
 <Project>
-	<PropertyGroup Label="Project">
+	<PropertyGroup Label="Project Settings">
 		<!-- Prepend organization name to default namespace -->
 		<RootNamespace>Kritikos.$(MSBuildProjectName)</RootNamespace>
 		<!-- Generate documentation file and ignore warnings for undocumented elements -->
@@ -17,26 +17,28 @@
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 		<!-- Disable nugets from SDK fallback folders -->
 		<DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
-		<!-- Enable nullable context by default -->
+		<!-- Enable nullable context by default for all projects -->
 		<Nullable>enable</Nullable>
 		<!-- Enable .NET 5+ native analyzers -->
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<!-- Use latest stable language features -->
 		<AnalysisLevel>latest</AnalysisLevel>
+		<!-- Use latest language version supported by the SDK -->
 		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
+		<!-- Makes all project types implicitly packable (opt out per type @ .targets) -->
+		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 
-	<!-- Set automated build variable -->
+	<!-- Sets deterministic source paths for CI builds -->
 	<PropertyGroup Label="CI Build">
 		<!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables -->
-		<ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">True</ContinuousIntegrationBuild>
+		<ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
 
 		<!-- https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables -->
-		<ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">True</ContinuousIntegrationBuild>
+		<ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
 
 		<!-- https://docs.gitlab.com/ee/ci/variables/predefined_variables.html -->
-		<ContinuousIntegrationBuild Condition="'$(GITLAB_CI)' == 'true'">True</ContinuousIntegrationBuild>
+		<ContinuousIntegrationBuild Condition="'$(GITLAB_CI)' == 'true'">true</ContinuousIntegrationBuild>
 	</PropertyGroup>
 
 	<!-- Restore only locked nuget packages on automated builds -->
@@ -65,18 +67,21 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Package">
-		<PackageId></PackageId>
+		<PackageId>$(RootNamespace)</PackageId>
 		<Company>Kritikos IO</Company>
 		<Authors>Alexandros Kritikos</Authors>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+		<!-- This is useful if you generate files during the build -->
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	</PropertyGroup>
 
-	<ItemGroup Label="Nugets" Condition="!$(MSBuildProjectFullPath.Contains('tests'))">
+	<ItemGroup Label="Nugets" Condition="!$(IsTest)">
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -99,7 +104,7 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup Label="SourceLink" Condition="'$(IsPackable)' == 'true'">
+	<ItemGroup Label="SourceLink" Condition="$(IsPackable)">
 		<PackageReference Include="Microsoft.SourceLink.Bitbucket.Git" Version="1.0.0" PrivateAssets="All"/>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
 		<PackageReference Include="Microsoft.SourceLink.GitLab" Version="1.0.0" PrivateAssets="All"/>
@@ -109,7 +114,7 @@
 		<SourceLinkBitBucketHost Include="bitbucket.org" />
 	</ItemGroup>
 
-	<ItemGroup Label="TestCoverage" Condition="$(MSBuildProjectFullPath.Contains('tests'))">
+	<ItemGroup Label="TestCoverage" Condition="$(IsTest)">
 		<PackageReference Include="coverlet.msbuild" Version="2.9.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
