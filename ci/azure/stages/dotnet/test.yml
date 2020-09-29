@@ -14,7 +14,7 @@ parameters:
   type: 'string'
 - name: coverageDirectory
   type: string
-  default: $(build.artifactStagingDirectory)/coverage/
+  default: $(build.artifactStagingDirectory)/coverage
 
 stages:
   - stage: Test
